@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens (tema claro) ─────────────────────────────────── */
+:root {
+  --bg: #fbfaf6;
+  --surface: #ffffff;
+  --surface-2: #f3f2ec;
+  --text: #1a1a1a;
+  --text-2: #6b6f6c;
+  --border: #e7e6df;
+  --brand: #14916b;
+  --brand-fg: #ffffff;
+  --brand-soft: #e3f1eb;
+  --amber: #e0a11a;
+  --amber-soft: #fbf0d6;
+
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+/* ── Tema escuro ────────────────────────────────────────────────── */
+.dark {
+  --bg: #0f1412;
+  --surface: #1a201e;
+  --surface-2: #232b28;
+  --text: #ecece6;
+  --text-2: #9ba29f;
+  --border: #2a322f;
+  --brand: #2db98b;
+  --brand-fg: #0f1412;
+  --brand-soft: #15302a;
+  --amber: #e8b23f;
+  --amber-soft: #2e2415;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Foco de teclado sempre visível (acessibilidade). */
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Evita "pulo" de tema no primeiro paint. */
+  ::selection {
+    background: var(--brand-soft);
+    color: var(--text);
+  }
+}
+
+@layer utilities {
+  /* Esconde scrollbar nos carrosséis de chips, mantendo scroll. */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

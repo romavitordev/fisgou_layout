@@ -31,7 +31,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navegação principal"
-      className="relative z-30 grid grid-cols-5 items-center border-t border-border bg-surface px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2"
+      className="relative z-30 grid grid-cols-5 items-center border-t border-border bg-surface px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 md:hidden"
     >
       {left.map((item) => (
         <NavLink key={item.href} {...item} active={isActive(pathname, item.href)} />

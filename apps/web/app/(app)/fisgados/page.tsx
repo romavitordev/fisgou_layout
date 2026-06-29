@@ -37,7 +37,7 @@ export default function FisgadosPage() {
   const mostrarBloqueados = filtro === "todos" || filtro === "regiao";
 
   return (
-    <div className="flex h-full flex-col">
+    <>
       <TopBar
         actions={
           <span className="text-right">
@@ -66,10 +66,10 @@ export default function FisgadosPage() {
         ))}
       </div>
 
-      {/* Grade (rola internamente; padding-bottom evita esconder a última
-          linha atrás da barra de ação fixa). */}
-      <div className="flex-1 overflow-y-auto px-3 pb-4">
-        <div className="grid grid-cols-3 gap-3">
+      {/* Grade — mais colunas no desktop. pb generoso pra última linha não
+          ficar escondida atrás da barra de ação sticky. */}
+      <div className="px-3 pb-28">
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-5">
           {entradasVisiveis.map((entry) => (
             <SpeciesCard key={entry.species.id} entry={entry} />
           ))}
@@ -86,13 +86,14 @@ export default function FisgadosPage() {
         </div>
       </div>
 
-      {/* Barra de ação FIXA acima da navegação inferior. */}
-      <div className="shrink-0 border-t border-border bg-surface p-3">
+      {/* Barra de ação fixa acima da navegação (sticky funciona no mobile
+          e no desktop, pois quem rola é sempre o <main>). */}
+      <div className="sticky bottom-0 border-t border-border bg-surface p-3">
         <Button size="lg" className="w-full">
           <Plus className="h-5 w-5" aria-hidden="true" />
           Provar um peixe
         </Button>
       </div>
-    </div>
+    </>
   );
 }

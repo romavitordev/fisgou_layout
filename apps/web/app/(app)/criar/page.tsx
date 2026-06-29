@@ -33,9 +33,9 @@ export default function CriarPage() {
     useState<LocationPrivacy>("aproximado");
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="min-h-full">
       {/* Header */}
-      <header className="flex items-center justify-between border-b border-border px-4 py-3">
+      <header className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-bg/85 px-4 py-3 backdrop-blur">
         <Link
           href="/"
           aria-label="Fechar"
@@ -50,7 +50,7 @@ export default function CriarPage() {
         </Button>
       </header>
 
-      <div className="flex-1 space-y-5 overflow-y-auto p-4">
+      <div className="space-y-5 p-4 pb-28">
         {/* Adicionar foto */}
         <button
           type="button"
@@ -134,7 +134,7 @@ export default function CriarPage() {
       </div>
 
       {/* Publicar fixo embaixo */}
-      <div className="shrink-0 border-t border-border bg-surface p-4">
+      <div className="sticky bottom-0 border-t border-border bg-surface p-4">
         <Button size="lg" className="w-full">
           Publicar
         </Button>

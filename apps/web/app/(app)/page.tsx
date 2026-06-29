@@ -18,11 +18,15 @@ export default function FeedPage() {
             <IconButton label="Mensagens">
               <MessageCircle className="h-5 w-5" aria-hidden="true" />
             </IconButton>
-            <ThemeToggle />
+            {/* No desktop o toggle vive na Sidebar; evita duplicar. */}
+            <ThemeToggle className="md:hidden" />
           </>
         }
       >
-        <Logo />
+        {/* No mobile mostra a logo; no desktop a logo está na Sidebar,
+            então o topo do feed vira só o título da página. */}
+        <Logo className="md:hidden" />
+        <h1 className="hidden text-lg font-semibold md:block">Início</h1>
       </TopBar>
 
       <div className="space-y-3 p-3">

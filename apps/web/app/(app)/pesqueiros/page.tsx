@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { TopBar, TopBarTitle } from "@/components/layout/TopBar";
+import { PageContainer } from "@/components/layout/PageContainer";
 import { Chip } from "@/components/ui/Chip";
 import { MapPlaceholder } from "@/components/pesqueiros/MapPlaceholder";
 import { PesqueiroCard } from "@/components/pesqueiros/PesqueiroCard";
@@ -41,7 +42,7 @@ export default function PesqueirosPage() {
   );
 
   return (
-    <>
+    <PageContainer width="wide">
       <TopBar
         actions={
           <button
@@ -86,6 +87,6 @@ export default function PesqueirosPage() {
           )}
         </div>
       </div>
-    </>
+    </PageContainer>
   );
 }

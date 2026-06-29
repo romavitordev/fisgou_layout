@@ -1,21 +1,23 @@
+import Link from "next/link";
 import { Search, MessageCircle } from "lucide-react";
 import { TopBar } from "@/components/layout/TopBar";
 import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { PageContainer } from "@/components/layout/PageContainer";
 import { Composer } from "@/components/feed/Composer";
 import { PostCard } from "@/components/feed/PostCard";
 import { posts } from "@/data/mock";
 
 export default function FeedPage() {
   return (
-    <>
+    <PageContainer>
       <TopBar
         actions={
           <>
-            <IconButton label="Buscar">
+            <IconButton label="Buscar" href="/buscar">
               <Search className="h-5 w-5" aria-hidden="true" />
             </IconButton>
-            <IconButton label="Mensagens">
+            <IconButton label="Mensagens" href="/mensagens">
               <MessageCircle className="h-5 w-5" aria-hidden="true" />
             </IconButton>
             {/* No desktop o toggle vive na Sidebar; evita duplicar. */}
@@ -36,24 +38,26 @@ export default function FeedPage() {
           <PostCard key={post.id} post={post} />
         ))}
       </div>
-    </>
+    </PageContainer>
   );
 }
 
 function IconButton({
   label,
+  href,
   children,
 }: {
   label: string;
+  href: string;
   children: React.ReactNode;
 }) {
   return (
-    <button
-      type="button"
+    <Link
+      href={href}
       aria-label={label}
       className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-text-2 transition-colors hover:bg-surface-2 hover:text-text"
     >
       {children}
-    </button>
+    </Link>
   );
 }

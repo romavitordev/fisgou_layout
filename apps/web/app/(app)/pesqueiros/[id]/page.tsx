@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { Avatar } from "@/components/ui/Avatar";
 import { RarityDot } from "@/components/ui/RarityDot";
+import { PageContainer } from "@/components/layout/PageContainer";
 import { pesqueiroTipoLabel } from "@/lib/rarity";
 import { formatNota } from "@/lib/format";
 import {
@@ -42,7 +43,7 @@ export default function PesqueiroDetalhe({
   const amigos = amigosPorPesqueiro[pesqueiro.id] ?? [];
 
   return (
-    <div className="pb-6">
+    <PageContainer className="pb-6">
       {/* Capa + ações sobrepostas */}
       <div className="relative">
         <div
@@ -152,6 +153,6 @@ export default function PesqueiroDetalhe({
           2 amigos ocultaram a localização e não aparecem aqui.
         </p>
       </section>
-    </div>
+    </PageContainer>
   );
 }

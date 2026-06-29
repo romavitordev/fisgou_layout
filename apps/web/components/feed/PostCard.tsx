@@ -1,8 +1,10 @@
-import { Heart, MessageCircle, Share2, Bell, Plus } from "lucide-react";
+import Link from "next/link";
+import { MessageCircle, Share2, Bell, Plus } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Card } from "@/components/ui/Card";
 import { RarityDot } from "@/components/ui/RarityDot";
 import { VerificationSeal } from "@/components/ui/VerificationSeal";
+import { LikeButton } from "./LikeButton";
 import { rarityLabel } from "@/lib/rarity";
 import { tempoRelativo } from "@/lib/format";
 import type { Post } from "@fisgou/shared";
@@ -14,28 +16,35 @@ export function PostCard({ post }: { post: Post }) {
     <Card className="overflow-hidden">
       {/* Cabeçalho */}
       <div className="flex items-center gap-3 p-3">
-        <Avatar iniciais={autor.iniciais} cor={autor.cor} size="md" />
+        <Link href={`/u/${autor.handle}`} className="shrink-0">
+          <Avatar iniciais={autor.iniciais} cor={autor.cor} size="md" />
+        </Link>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold leading-tight">
-            {autor.nome}
-          </p>
+          <Link href={`/u/${autor.handle}`} className="hover:underline">
+            <p className="truncate text-sm font-semibold leading-tight">
+              {autor.nome}
+            </p>
+          </Link>
           <p className="truncate text-xs text-text-2">
             @{autor.handle} · {tempoRelativo(post.criadoEm)}
           </p>
         </div>
       </div>
 
-      {/* Imagem (placeholder colorido até existir upload) */}
-      <div
-        className="aspect-[4/3] w-full"
-        style={{ backgroundColor: post.imagemCor }}
-        role="img"
-        aria-label={
-          especie
-            ? `Foto de ${especie.nome}`
-            : `Foto da publicação de ${autor.nome}`
-        }
-      />
+      {/* Imagem (placeholder colorido até existir upload). Altura limitada
+          pra não criar sensação de "vazio" ao rolar o feed. */}
+      <Link href={`/post/${post.id}`} className="block">
+        <div
+          className="aspect-video max-h-[420px] w-full"
+          style={{ backgroundColor: post.imagemCor }}
+          role="img"
+          aria-label={
+            especie
+              ? `Foto de ${especie.nome}`
+              : `Foto da publicação de ${autor.nome}`
+          }
+        />
+      </Link>
 
       {/* Faixa de espécie (só quando há espécie marcada) */}
       {especie && (
@@ -53,7 +62,7 @@ export function PostCard({ post }: { post: Post }) {
           )}
           <button
             type="button"
-            className="ml-auto inline-flex items-center gap-1 rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-brand-fg"
+            className="ml-auto inline-flex items-center gap-1 rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand transition-colors hover:bg-brand hover:text-brand-fg active:scale-95"
           >
             <Plus className="h-3.5 w-3.5" aria-hidden="true" />
             Fisgados
@@ -66,9 +75,22 @@ export function PostCard({ post }: { post: Post }) {
 
       {/* Rodapé de ações */}
       <div className="flex items-center gap-5 border-t border-border px-3 py-2.5 text-text-2">
-        <Acao icon={Heart} label="Curtir" valor={post.curtidas} />
-        <Acao icon={MessageCircle} label="Comentar" valor={post.comentarios} />
-        <Acao icon={Share2} label="Compartilhar" />
+        <LikeButton curtidas={post.curtidas} />
+        <Link
+          href={`/post/${post.id}`}
+          aria-label="Comentar"
+          className="inline-flex items-center gap-1.5 text-sm transition-colors hover:text-text"
+        >
+          <MessageCircle className="h-5 w-5" aria-hidden="true" />
+          <span>{post.comentarios}</span>
+        </Link>
+        <button
+          type="button"
+          aria-label="Compartilhar"
+          className="inline-flex items-center gap-1.5 text-sm transition-colors hover:text-text"
+        >
+          <Share2 className="h-5 w-5" aria-hidden="true" />
+        </button>
         <button
           type="button"
           aria-label="Ativar notificações desta publicação"
@@ -78,26 +100,5 @@ export function PostCard({ post }: { post: Post }) {
         </button>
       </div>
     </Card>
-  );
-}
-
-function Acao({
-  icon: Icon,
-  label,
-  valor,
-}: {
-  icon: typeof Heart;
-  label: string;
-  valor?: number;
-}) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      className="inline-flex items-center gap-1.5 text-sm transition-colors hover:text-text"
-    >
-      <Icon className="h-5 w-5" aria-hidden="true" />
-      {valor !== undefined && <span>{valor}</span>}
-    </button>
   );
 }

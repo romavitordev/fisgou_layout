@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
+import { PageContainer } from "@/components/layout/PageContainer";
 import { cn } from "@/lib/cn";
 import { privacyLabel, privacyHint } from "@/lib/rarity";
 import type { LocationPrivacy } from "@fisgou/shared";
@@ -33,7 +34,7 @@ export default function CriarPage() {
     useState<LocationPrivacy>("aproximado");
 
   return (
-    <div className="min-h-full">
+    <PageContainer>
       {/* Header */}
       <header className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-bg/85 px-4 py-3 backdrop-blur">
         <Link
@@ -139,6 +140,6 @@ export default function CriarPage() {
           Publicar
         </Button>
       </div>
-    </div>
+    </PageContainer>
   );
 }

@@ -26,11 +26,19 @@ export type BadgeTier = "normal" | "lendario";
 
 // ── Entidades ───────────────────────────────────────────────────────
 
-/** Estatísticas resumidas exibidas no perfil. */
+/**
+ * Estatísticas resumidas exibidas no perfil.
+ * Usuários comuns usam o modelo de "amigos" (mútuo). Criadores usam o
+ * modelo de "seguidores"/"seguindo" (unidirecional, como IG/Twitter).
+ */
 export interface UserStats {
   peixes: number;
   especies: number;
-  amigos: number;
+  /** Modelo mútuo — usuários comuns. */
+  amigos?: number;
+  /** Modelo de criador — seguidores/seguindo. */
+  seguidores?: number;
+  seguindo?: number;
 }
 
 export interface User {
@@ -38,6 +46,8 @@ export interface User {
   nome: string;
   handle: string;
   cidade?: string;
+  /** Bio curta exibida no perfil. */
+  bio?: string;
   /** Cor do avatar placeholder (até existir upload de foto). */
   cor: string;
   iniciais: string;
@@ -77,6 +87,35 @@ export interface Post {
   curtidas: number;
   comentarios: number;
   localPrivacidade?: LocationPrivacy;
+}
+
+export interface Comment {
+  id: string;
+  postId: string;
+  autor: User;
+  texto: string;
+  /** ISO date. */
+  criadoEm: string;
+  curtidas: number;
+}
+
+export type NotificationType =
+  | "curtida"
+  | "comentario"
+  | "seguidor"
+  | "verificacao";
+
+export interface Notification {
+  id: string;
+  tipo: NotificationType;
+  /** Quem gerou a notificação (no caso de "verificacao", é o sistema). */
+  ator?: User;
+  /** Contexto opcional. */
+  postId?: string;
+  especie?: Species;
+  /** ISO date. */
+  criadoEm: string;
+  lida: boolean;
 }
 
 export interface Badge {

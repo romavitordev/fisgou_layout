@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Plus } from "lucide-react";
 import { TopBar, TopBarTitle } from "@/components/layout/TopBar";
+import { PageContainer } from "@/components/layout/PageContainer";
 import { Chip } from "@/components/ui/Chip";
 import { SpeciesCard } from "@/components/fisgados/SpeciesCard";
 import { LockedSpeciesCard } from "@/components/fisgados/LockedSpeciesCard";
@@ -37,7 +38,7 @@ export default function FisgadosPage() {
   const mostrarBloqueados = filtro === "todos" || filtro === "regiao";
 
   return (
-    <>
+    <PageContainer width="wide">
       <TopBar
         actions={
           <span className="text-right">
@@ -94,6 +95,6 @@ export default function FisgadosPage() {
           Provar um peixe
         </Button>
       </div>
-    </>
+    </PageContainer>
   );
 }

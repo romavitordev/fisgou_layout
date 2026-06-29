@@ -5,6 +5,8 @@ import type {
   Post,
   Badge,
   Pesqueiro,
+  Comment,
+  Notification,
 } from "@fisgou/shared";
 
 /**
@@ -21,10 +23,12 @@ export const currentUser: User = {
   nome: "Marina Tavares",
   handle: "marina.pesca",
   cidade: "São Carlos, SP",
+  bio: "Bióloga e pescadora esportiva. Pesca com soltura sempre. 🎣 Caçando o dourado dos sonhos.",
   cor: "#14916B",
   iniciais: "MT",
   criador: true,
-  stats: { peixes: 142, especies: 37, amigos: 89 },
+  // Criador usa seguidores/seguindo.
+  stats: { peixes: 142, especies: 37, seguidores: 1240, seguindo: 86 },
 };
 
 const rafael: User = {
@@ -32,9 +36,11 @@ const rafael: User = {
   nome: "Rafael Lima",
   handle: "rafa.fisgou",
   cidade: "Ribeirão Preto, SP",
+  bio: "Represa é meu segundo endereço. Fim de semana é dia de linha na água.",
   cor: "#2D7DD2",
   iniciais: "RL",
-  stats: { peixes: 98, especies: 24, amigos: 51 },
+  criador: true,
+  stats: { peixes: 98, especies: 24, seguidores: 320, seguindo: 140 },
 };
 
 const bia: User = {
@@ -42,8 +48,10 @@ const bia: User = {
   nome: "Bia Nogueira",
   handle: "bia.iscaviva",
   cidade: "Ubatuba, SP",
+  bio: "Pesca de praia e costão. Apaixonada por água salgada.",
   cor: "#7C5CD6",
   iniciais: "BN",
+  // Usuária comum: modelo de amigos.
   stats: { peixes: 211, especies: 44, amigos: 130 },
 };
 
@@ -52,12 +60,22 @@ const caio: User = {
   nome: "Caio Mendes",
   handle: "caio.varadura",
   cidade: "Avaré, SP",
+  bio: "Iniciante animado. Toda fisgada é uma vitória.",
   cor: "#E0A11A",
   iniciais: "CM",
   stats: { peixes: 63, especies: 19, amigos: 38 },
 };
 
 export const friends: User[] = [rafael, bia, caio];
+
+/** Todos os usuários conhecidos (para resolver perfis por handle). */
+export const users: User[] = [currentUser, rafael, bia, caio];
+
+export const userByHandle = (handle: string) =>
+  users.find((u) => u.handle === handle);
+
+/** Handles que o usuário atual já segue (estado inicial de follow). */
+export const followingHandles = new Set<string>(["rafa.fisgou", "bia.iscaviva"]);
 
 // ── Espécies (12, cobrindo 4 raridades e água doce/salgada) ─────────
 export const species: Species[] = [
@@ -187,6 +205,19 @@ export const collectionProgress = {
 // ── Posts (feed) ────────────────────────────────────────────────────
 export const posts: Post[] = [
   {
+    id: "p0",
+    autor: currentUser,
+    criadoEm: "2026-06-28T18:20:00-03:00",
+    imagemCor: "#BDD3C7",
+    legenda:
+      "Tambaqui marcado e devolvido. Pesca com soltura é o que mantém o rio vivo. 🌿",
+    especie: byId("s7"),
+    status: "verificado",
+    curtidas: 203,
+    comentarios: 18,
+    localPrivacidade: "aproximado",
+  },
+  {
     id: "p1",
     autor: rafael,
     criadoEm: "2026-06-28T07:10:00-03:00",
@@ -223,7 +254,111 @@ export const posts: Post[] = [
     comentarios: 22,
     localPrivacidade: "oculto",
   },
+  {
+    id: "p4",
+    autor: currentUser,
+    criadoEm: "2026-06-22T09:30:00-03:00",
+    imagemCor: "#A9C7D6",
+    legenda:
+      "Manhã de tucunaré no reservatório. Esse bateu na isca de superfície que foi um espetáculo.",
+    especie: byId("s3"),
+    status: "verificado",
+    curtidas: 312,
+    comentarios: 27,
+    localPrivacidade: "aproximado",
+  },
 ];
+
+export const postById = (id: string) => posts.find((p) => p.id === id);
+
+/** Publicações de um usuário (aba "Publicações" do perfil). */
+export const postsByUser = (userId: string) =>
+  posts.filter((p) => p.autor.id === userId);
+
+// ── Comentários (página de post) ────────────────────────────────────
+export const comments: Comment[] = [
+  {
+    id: "c1",
+    postId: "p1",
+    autor: bia,
+    texto: "Que espelho de água! Inveja boa. 😍",
+    criadoEm: "2026-06-28T07:40:00-03:00",
+    curtidas: 6,
+  },
+  {
+    id: "c2",
+    postId: "p1",
+    autor: caio,
+    texto: "Qual isca tava usando?",
+    criadoEm: "2026-06-28T08:05:00-03:00",
+    curtidas: 1,
+  },
+  {
+    id: "c3",
+    postId: "p1",
+    autor: currentUser,
+    texto: "Top demais, Rafa! Bora marcar uma lá.",
+    criadoEm: "2026-06-28T09:12:00-03:00",
+    curtidas: 3,
+  },
+  {
+    id: "c4",
+    postId: "p0",
+    autor: rafael,
+    texto: "Isso! Soltura sempre. 👏",
+    criadoEm: "2026-06-28T18:45:00-03:00",
+    curtidas: 9,
+  },
+];
+
+export const commentsByPost = (postId: string) =>
+  comments.filter((c) => c.postId === postId);
+
+// ── Notificações ────────────────────────────────────────────────────
+export const notifications: Notification[] = [
+  {
+    id: "n1",
+    tipo: "verificacao",
+    especie: byId("s7"),
+    postId: "p0",
+    criadoEm: "2026-06-28T19:00:00-03:00",
+    lida: false,
+  },
+  {
+    id: "n2",
+    tipo: "curtida",
+    ator: bia,
+    postId: "p0",
+    criadoEm: "2026-06-28T18:50:00-03:00",
+    lida: false,
+  },
+  {
+    id: "n3",
+    tipo: "seguidor",
+    ator: caio,
+    criadoEm: "2026-06-28T14:10:00-03:00",
+    lida: false,
+  },
+  {
+    id: "n4",
+    tipo: "comentario",
+    ator: rafael,
+    postId: "p0",
+    criadoEm: "2026-06-28T18:46:00-03:00",
+    lida: true,
+  },
+  {
+    id: "n5",
+    tipo: "curtida",
+    ator: rafael,
+    postId: "p4",
+    criadoEm: "2026-06-22T10:00:00-03:00",
+    lida: true,
+  },
+];
+
+export const unreadNotifications = () =>
+  notifications.filter((n) => !n.lida).length;
 
 // ── Insígnias ───────────────────────────────────────────────────────
 export const badges: Badge[] = [

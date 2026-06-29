@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { BottomNav } from "./BottomNav";
 import { Sidebar } from "./Sidebar";
 import { RightRail } from "./RightRail";
+import { RouteTransition } from "./RouteTransition";
 
 /**
  * Casca responsiva.
@@ -20,8 +21,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       <Sidebar />
       <div className="flex h-full min-w-0 flex-1 flex-col overflow-hidden bg-bg">
         <div className="flex min-h-0 flex-1">
+          {/* Cada página controla a própria largura via <PageContainer>. */}
           <main className="flex-1 overflow-y-auto overflow-x-hidden">
-            <div className="mx-auto w-full max-w-2xl">{children}</div>
+            <RouteTransition>{children}</RouteTransition>
           </main>
           <RightRail />
         </div>

@@ -6,14 +6,13 @@ import { Home, MapPin, Fish, User, Plus } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const items = [
-  { href: "/", label: "Início", icon: Home },
+  { href: "/feed", label: "Início", icon: Home },
   { href: "/pesqueiros", label: "Pesqueiros", icon: MapPin },
   { href: "/fisgados", label: "FISGADOS", icon: Fish },
   { href: "/perfil", label: "Perfil", icon: User },
 ] as const;
 
 function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(href + "/");
 }
 

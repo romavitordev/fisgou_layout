@@ -21,8 +21,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <Sidebar />
       <div className="flex h-full min-w-0 flex-1 flex-col overflow-hidden bg-bg">
         <div className="flex min-h-0 flex-1">
-          {/* Cada página controla a própria largura via <PageContainer>. */}
-          <main className="flex-1 overflow-y-auto overflow-x-hidden">
+          {/* `relative`: confina elementos position:absolute (ex.: spans
+              .sr-only) ao scroller. Sem isso, eles vazam pro <html> e o
+              documento inteiro passa a rolar (sidebar sobe junto). */}
+          <main className="relative flex-1 overflow-y-auto overflow-x-hidden">
             <RouteTransition>{children}</RouteTransition>
           </main>
           <RightRail />
